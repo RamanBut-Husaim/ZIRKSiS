@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Security.Cryptography;
 using Crypto.Providers.BuildersStandard;
 using Crypto.Providers.Ciphers;
@@ -9,24 +7,35 @@ namespace Crypto.Providers
 {
     internal sealed class CipherProviderStandard : ICipherProviderStandard
     {
-        private static readonly Dictionary<SymmetricCiphers, ISymmetricCipherBuilder> SymmetricCipherBuilders;
+        private static readonly Dictionary<SymmetricCipher, ISymmetricCipherBuilder> SymmetricCipherBuilders;
+        private static readonly Dictionary<AsymmetricCipher, IAsymmetricCipherBuilder> AsymmetricCipherBuilders; 
 
         static CipherProviderStandard()
         {
-            SymmetricCipherBuilders = new Dictionary<SymmetricCiphers, ISymmetricCipherBuilder>()
+            SymmetricCipherBuilders = new Dictionary<SymmetricCipher, ISymmetricCipherBuilder>()
             {
-                { SymmetricCiphers.AES, new AESCipherBuilder() },
-                { SymmetricCiphers.DES, new DESCipherBuilder() },
-                { SymmetricCiphers.RC2, new RC2CipherBuilder() },
-                { SymmetricCiphers.Rijndael, new RijndaelCipherBuilder() },
-                { SymmetricCiphers.TripleDES, new TripleDESCipherBuilder() } 
+                { SymmetricCipher.AES, new AESCipherBuilder() },
+                { SymmetricCipher.DES, new DESCipherBuilder() },
+                { SymmetricCipher.RC2, new RC2CipherBuilder() },
+                { SymmetricCipher.Rijndael, new RijndaelCipherBuilder() },
+                { SymmetricCipher.TripleDES, new TripleDESCipherBuilder() } 
+            };
+
+            AsymmetricCipherBuilders = new Dictionary<AsymmetricCipher, IAsymmetricCipherBuilder>()
+            {
+                { AsymmetricCipher.RSA, new RSACipherBuilder() }
             };
         }
 
 
-        public SymmetricAlgorithm GetSymmetricCipher(SymmetricCiphers cipher)
+        public SymmetricAlgorithm GetSymmetricCipher(SymmetricCipher cipher)
         {
             return SymmetricCipherBuilders[cipher].Build();
+        }
+
+        public AsymmetricAlgorithm GetAsymmetricCipher(AsymmetricCipher cipher)
+        {
+            return AsymmetricCipherBuilders[cipher].Build();
         }
     }
 }

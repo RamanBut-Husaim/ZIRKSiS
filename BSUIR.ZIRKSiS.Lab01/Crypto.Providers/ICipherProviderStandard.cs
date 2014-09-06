@@ -5,6 +5,7 @@ namespace Crypto.Providers
 {
     public interface ICipherProviderStandard
     {
-        SymmetricAlgorithm GetSymmetricCipher(SymmetricCiphers cipher);
+        SymmetricAlgorithm GetSymmetricCipher(SymmetricCipher cipher);
+        AsymmetricAlgorithm GetAsymmetricCipher(AsymmetricCipher cipher);
     }
 }

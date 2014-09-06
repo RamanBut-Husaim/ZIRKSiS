@@ -52,24 +52,27 @@
   <ItemGroup>
     <Compile Include="BuildersStandard\AESCipherBuilder.cs" />
     <Compile Include="BuildersStandard\DESCipherBuilder.cs" />
+    <Compile Include="BuildersStandard\IAsymmetricCipherBuilder.cs" />
     <Compile Include="BuildersStandard\IHashAlgorithmBuilder.cs" />
     <Compile Include="BuildersStandard\ISymmetricCipherBuilder.cs" />
     <Compile Include="BuildersStandard\RC2CipherBuilder.cs" />
     <Compile Include="BuildersStandard\RijndaelCipherBuilder.cs" />
+    <Compile Include="BuildersStandard\RSACipherBuilder.cs" />
     <Compile Include="BuildersStandard\SHA1AlgorithmBuilder.cs" />
     <Compile Include="BuildersStandard\SHA512AlgorithmBuilder.cs" />
     <Compile Include="BuildersStandard\TripleDESCipherBuilder.cs" />
     <Compile Include="Builders\AESBlockCipherBuilder.cs" />
     <Compile Include="CipherProviderStandard.cs" />
     <Compile Include="CipherProviderStandardBuilder.cs" />
-    <Compile Include="Ciphers\BlockCiphers.cs" />
+    <Compile Include="Ciphers\AsymmetricCipher.cs" />
+    <Compile Include="Ciphers\BlockCipher.cs" />
     <Compile Include="Builders\DESBlockCipherBuilder.cs" />
     <Compile Include="Builders\DESedeBlockCipherBuilder.cs" />
     <Compile Include="Builders\IBlockCipherBuilder.cs" />
     <Compile Include="Builders\IStreamCipherBuilder.cs" />
     <Compile Include="CipherProvider.cs" />
     <Compile Include="CipherProviderBuilder.cs" />
-    <Compile Include="Ciphers\SymmetricCiphers.cs" />
+    <Compile Include="Ciphers\SymmetricCipher.cs" />
     <Compile Include="HashAlgorithmProviderStandard.cs" />
     <Compile Include="HashAlgorithmProviderStandardBuilder.cs" />
     <Compile Include="HashAlgorithms.cs" />
@@ -82,7 +85,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Builders\RC2BlockCipherBuilder.cs" />
     <Compile Include="Builders\RC4StreamCipherBuilder.cs" />
-    <Compile Include="Ciphers\StreamCiphers.cs" />
+    <Compile Include="Ciphers\StreamCipher.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

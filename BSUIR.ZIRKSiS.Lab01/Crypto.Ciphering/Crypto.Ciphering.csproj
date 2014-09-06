@@ -41,7 +41,11 @@
   <ItemGroup>
     <Compile Include="CryptoManager.cs" />
     <Compile Include="ICryptoManager.cs" />
+    <Compile Include="IPasswordProvider.cs" />
+    <Compile Include="IPasswordProviderBuilder.cs" />
+    <Compile Include="SessionPasswordProviderBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SessionPasswordProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Crypto.Providers\Crypto.Providers.csproj">

@@ -5,7 +5,7 @@ namespace Crypto.Providers
 {
     public interface ICipherProvider
     {
-        IStreamCipher GetStreamCipher(StreamCiphers cipher);
-        IBlockCipher GetBlockCipher(BlockCiphers cipher);
+        IStreamCipher GetStreamCipher(StreamCipher cipher);
+        IBlockCipher GetBlockCipher(BlockCipher cipher);
     }
 }

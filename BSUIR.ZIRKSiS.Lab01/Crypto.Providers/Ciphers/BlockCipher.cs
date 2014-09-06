@@ -1,6 +1,6 @@
 ﻿namespace Crypto.Providers.Ciphers
 {
-    public enum BlockCiphers
+    public enum BlockCipher
     {
         RC2,
         AES,

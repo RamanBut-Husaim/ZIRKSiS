@@ -1,6 +1,6 @@
 ﻿namespace Crypto.Providers.Ciphers
 {
-    public enum SymmetricCiphers
+    public enum SymmetricCipher
     {
         RC2,
         Rijndael,

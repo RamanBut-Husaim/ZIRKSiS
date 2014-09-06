@@ -7,31 +7,31 @@ namespace Crypto.Providers
 {
     internal sealed class CipherProvider : ICipherProvider
     {
-        private static readonly Dictionary<BlockCiphers, IBlockCipherBuilder> BlockCipherBuilders;
-        private static readonly Dictionary<StreamCiphers, IStreamCipherBuilder> StreamCipherBuilders;
+        private static readonly Dictionary<BlockCipher, IBlockCipherBuilder> BlockCipherBuilders;
+        private static readonly Dictionary<StreamCipher, IStreamCipherBuilder> StreamCipherBuilders;
 
         static CipherProvider()
         {
-            BlockCipherBuilders = new Dictionary<BlockCiphers, IBlockCipherBuilder>(4)
+            BlockCipherBuilders = new Dictionary<BlockCipher, IBlockCipherBuilder>(4)
             {
-                { BlockCiphers.RC2, new RC2BlockCipherBuilder() },
-                { BlockCiphers.DES, new DESBlockCipherBuilder() },
-                { BlockCiphers.DESede, new DESedeBlockCipherBuilder() },
-                { BlockCiphers.AES, new AESBlockCipherBuilder() }
+                { BlockCipher.RC2, new RC2BlockCipherBuilder() },
+                { BlockCipher.DES, new DESBlockCipherBuilder() },
+                { BlockCipher.DESede, new DESedeBlockCipherBuilder() },
+                { BlockCipher.AES, new AESBlockCipherBuilder() }
             };
-            StreamCipherBuilders = new Dictionary<StreamCiphers, IStreamCipherBuilder>()
+            StreamCipherBuilders = new Dictionary<StreamCipher, IStreamCipherBuilder>()
             {
-                { StreamCiphers.RC4, new RC4StreamCipherBuilder() }
+                { StreamCipher.RC4, new RC4StreamCipherBuilder() }
             };
         }
 
 
-        public IStreamCipher GetStreamCipher(StreamCiphers cipher)
+        public IStreamCipher GetStreamCipher(StreamCipher cipher)
         {
             return StreamCipherBuilders[cipher].Build();
         }
 
-        public IBlockCipher GetBlockCipher(BlockCiphers cipher)
+        public IBlockCipher GetBlockCipher(BlockCipher cipher)
         {
             return BlockCipherBuilders[cipher].Build();
         }

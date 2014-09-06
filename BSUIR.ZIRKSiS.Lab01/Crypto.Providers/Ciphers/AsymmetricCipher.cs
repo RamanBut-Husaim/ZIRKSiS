@@ -1,7 +1,7 @@
 ﻿namespace Crypto.Providers.Ciphers
 {
-    public enum StreamCiphers
+    public enum AsymmetricCipher
     {
-        RC4
+        RSA
     }
 }

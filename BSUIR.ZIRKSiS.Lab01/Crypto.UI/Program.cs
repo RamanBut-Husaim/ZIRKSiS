@@ -21,24 +21,41 @@ namespace Crypto.UI
             HashAlgorithm hashAlgorithm = hashAlgorithmProvider.GetHashAlgorithm(HashAlgorithms.SHA512);
             ICipherProviderStandard cipherProvider = new CipherProviderStandardBuilder().Build();
 
-            if (args.Length == 5)
+            if (args.Length >= 4)
             {
-                SymmetricCiphers cipher;
+                SymmetricCipher cipher;
                 if (Enum.TryParse(args[1], true, out cipher))
                 {
-                    var symmetricAlgorithm = cipherProvider.GetSymmetricCipher(cipher);
+                    SymmetricAlgorithm symmetricAlgorithm = cipherProvider.GetSymmetricCipher(cipher);
+                    AsymmetricAlgorithm asymmetricAlgorithm = cipherProvider.GetAsymmetricCipher(AsymmetricCipher.RSA);
+                    IPasswordProviderBuilder passwordProviderBuilder = new SessionPasswordProviderBuilder(asymmetricAlgorithm);
+                    IPasswordProvider passwordProvider = passwordProviderBuilder.Build();
                     if ("encrypt".Equals(args[0], StringComparison.OrdinalIgnoreCase))
                     {
-                        using (ICryptoManager cryptoManager = CryptoManager.Create(symmetricAlgorithm, hashAlgorithm))
+                        using (ICryptoManager cryptoManager = CryptoManager.Create(symmetricAlgorithm, hashAlgorithm, passwordProvider))
                         {
-                            cryptoManager.Encrypt(args[2], args[3], args[4]);
+                            if (args.Length == 4)
+                            {
+                                cryptoManager.Encrypt(args[2], args[3]);
+                            }
+                            else
+                            {
+                                cryptoManager.Encrypt(args[2], args[3], args[4]);
+                            }
                         }
                     }
                     else
                     {
-                        using (ICryptoManager cryptoManager = CryptoManager.Create(symmetricAlgorithm, hashAlgorithm))
+                        using (ICryptoManager cryptoManager = CryptoManager.Create(symmetricAlgorithm, hashAlgorithm, passwordProvider))
                         {
-                            cryptoManager.Decrypt(args[2], args[3], args[4]);
+                            if (args.Length == 4)
+                            {
+                                cryptoManager.Decrypt(args[2], args[3]);
+                            }
+                            else
+                            {
+                                cryptoManager.Decrypt(args[2], args[3], args[4]);
+                            }
                         }
                     }
 
@@ -54,11 +71,11 @@ namespace Crypto.UI
         private static void DisplayAlgorithms()
         {
             Console.WriteLine("Available algorithms: ");
-            Console.WriteLine(SymmetricCiphers.AES);
-            Console.WriteLine(SymmetricCiphers.DES);
-            Console.WriteLine(SymmetricCiphers.TripleDES);
-            Console.WriteLine(SymmetricCiphers.RC2);
-            Console.WriteLine(SymmetricCiphers.Rijndael);
+            Console.WriteLine(SymmetricCipher.AES);
+            Console.WriteLine(SymmetricCipher.DES);
+            Console.WriteLine(SymmetricCipher.TripleDES);
+            Console.WriteLine(SymmetricCipher.RC2);
+            Console.WriteLine(SymmetricCipher.Rijndael);
         }
     }
 }
