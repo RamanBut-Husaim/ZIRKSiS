@@ -1,0 +1,41 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30723.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crypto.UI", "Crypto.UI\Crypto.UI.csproj", "{04DD5A0F-AB39-46B3-8700-08B7F50EA3BA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crypto.Providers", "Crypto.Providers\Crypto.Providers.csproj", "{24187315-2581-4841-9D6B-773BAE1CC451}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crypto.Ciphering", "Crypto.Ciphering\Crypto.Ciphering.csproj", "{15C7C07A-786F-4171-8191-E14999AAE112}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{12E7F524-4ACB-42DD-AE04-AF5237663C9F}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{04DD5A0F-AB39-46B3-8700-08B7F50EA3BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04DD5A0F-AB39-46B3-8700-08B7F50EA3BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04DD5A0F-AB39-46B3-8700-08B7F50EA3BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04DD5A0F-AB39-46B3-8700-08B7F50EA3BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24187315-2581-4841-9D6B-773BAE1CC451}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24187315-2581-4841-9D6B-773BAE1CC451}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24187315-2581-4841-9D6B-773BAE1CC451}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24187315-2581-4841-9D6B-773BAE1CC451}.Release|Any CPU.Build.0 = Release|Any CPU
+		{15C7C07A-786F-4171-8191-E14999AAE112}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15C7C07A-786F-4171-8191-E14999AAE112}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15C7C07A-786F-4171-8191-E14999AAE112}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15C7C07A-786F-4171-8191-E14999AAE112}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
