@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Security.Cryptography;
 
 namespace CryptoHash.Hashing
 {
     public interface IHashingManagerBuilder
     {
         IHashingManager Build(HashAlgorithm hashAlgorithm, IPasswordProvider passwordProvider);
+        IHashingManager BuildSecure(HMAC secureHashAlgorithm, IPasswordProvider passwordProvider);
     }
 }

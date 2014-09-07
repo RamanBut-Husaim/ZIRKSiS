@@ -46,6 +46,7 @@
     <Compile Include="IPasswordProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RandomPasswordProvider.cs" />
+    <Compile Include="SecureHashingManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CryptoHash.Providers\CryptoHash.Providers.csproj">

@@ -40,11 +40,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Builders\IHashAlgorithmBuilder.cs" />
+    <Compile Include="Builders\ISecureHashAlgorithmBuilder.cs" />
     <Compile Include="Builders\MD5HashBuilder.cs" />
+    <Compile Include="Builders\MD5SecureHashBuilder.cs" />
     <Compile Include="Builders\SHA1HashBuilder.cs" />
+    <Compile Include="Builders\SHA1SecureHashBuilder.cs" />
     <Compile Include="Builders\SHA512HashBuilder.cs" />
+    <Compile Include="Builders\SHA512SecureHashBuilder.cs" />
     <Compile Include="HashAlgorithmProvider.cs" />
     <Compile Include="HashAlgorithmProviderBuilder.cs" />
+    <Compile Include="HMACHashAlgorithm.cs" />
     <Compile Include="IHashAlgorithmProviderBuilder.cs" />
     <Compile Include="IHashAlgorithmProvider.cs" />
     <Compile Include="StandardHashAlgorithm.cs" />

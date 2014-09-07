@@ -8,5 +8,10 @@ namespace CryptoHash.Hashing
         {
             return new HashingManager(hashAlgorithm, passwordProvider);
         }
+
+        public IHashingManager BuildSecure(HMAC secureHashAlgorithm, IPasswordProvider passwordProvider)
+        {
+            return new SecureHashingManager(secureHashAlgorithm, passwordProvider);
+        }
     }
 }
