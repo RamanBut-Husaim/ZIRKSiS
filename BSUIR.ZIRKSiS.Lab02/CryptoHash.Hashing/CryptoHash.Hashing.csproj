@@ -39,8 +39,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DigitalSignatureManager.cs" />
     <Compile Include="HashingManager.cs" />
     <Compile Include="HashingManagerBuilder.cs" />
+    <Compile Include="IDigitalSignatureManager.cs" />
     <Compile Include="IHashingManager.cs" />
     <Compile Include="IHashingManagerBuilder.cs" />
     <Compile Include="IPasswordProvider.cs" />
