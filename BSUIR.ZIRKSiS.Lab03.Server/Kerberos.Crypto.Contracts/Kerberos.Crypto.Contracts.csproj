@@ -39,7 +39,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Hash.cs" />
+    <Compile Include="IHashAlgorithmBuilder.cs" />
+    <Compile Include="IHashAlgorithmProvider.cs" />
+    <Compile Include="ISymmetricAlgorithmBuilder.cs" />
+    <Compile Include="ISymmetricAlgorithmProvider.cs" />
+    <Compile Include="ITgsToken.cs" />
+    <Compile Include="ITgtToken.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SymmetricAlgorithms.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

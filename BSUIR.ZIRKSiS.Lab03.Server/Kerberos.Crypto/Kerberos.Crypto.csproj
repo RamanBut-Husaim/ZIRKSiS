@@ -39,7 +39,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AESAlgorithmBuilder.cs" />
+    <Compile Include="HashAlgorithmProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SHA1HashAlgorithmBuilder.cs" />
+    <Compile Include="SHA512HashAlgorithmBuilder.cs" />
+    <Compile Include="SymmetricAlgorithmProvider.cs" />
+    <Compile Include="TgsToken.cs" />
+    <Compile Include="TgtToken.cs" />
+    <Compile Include="TripleDESAlgorithmBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Kerberos.Crypto.Contracts\Kerberos.Crypto.Contracts.csproj">
