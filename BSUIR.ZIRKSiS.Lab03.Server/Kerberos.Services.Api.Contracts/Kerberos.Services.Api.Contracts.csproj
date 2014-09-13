@@ -39,12 +39,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IAuthenticationRequest.cs" />
-    <Compile Include="IAuthenticationService.cs" />
+    <Compile Include="CryptoExtensions.cs" />
+    <Compile Include="Authentication\IAuthenticationReply.cs" />
+    <Compile Include="Authentication\IAuthenticationRequest.cs" />
+    <Compile Include="Authentication\IAuthenticationService.cs" />
     <Compile Include="IAuthorizationService.cs" />
     <Compile Include="IService.cs" />
+    <Compile Include="ITgsToken.cs" />
+    <Compile Include="ITgtToken.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SecurityServiceBase.cs" />
     <Compile Include="ServiceBase.cs" />
+    <Compile Include="Tracing\ITraceManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Kerberos.Crypto.Contracts\Kerberos.Crypto.Contracts.csproj">
@@ -60,6 +66,7 @@
       <Name>Kerberos.Models</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

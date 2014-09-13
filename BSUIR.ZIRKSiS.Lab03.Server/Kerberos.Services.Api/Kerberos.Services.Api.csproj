@@ -39,10 +39,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AuthenticationService.cs" />
+    <Compile Include="Authentication\AuthenticationReply.cs" />
+    <Compile Include="Authentication\AuthenticationRequest.cs" />
+    <Compile Include="Authentication\AuthenticationService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TgsToken.cs" />
+    <Compile Include="TgtToken.cs" />
+    <Compile Include="Tracing\TraceManager.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Kerberos.Crypto.Contracts\Kerberos.Crypto.Contracts.csproj">
+      <Project>{a83785e7-021a-4610-af5b-b94d065a143e}</Project>
+      <Name>Kerberos.Crypto.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kerberos.Crypto\Kerberos.Crypto.csproj">
+      <Project>{0eaa788d-ab35-4f9c-934c-e7cf5bddc949}</Project>
+      <Name>Kerberos.Crypto</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Kerberos.Data.Contracts\Kerberos.Data.Contracts.csproj">
       <Project>{9ba60e53-d0a3-4549-aaaf-bee355932c38}</Project>
       <Name>Kerberos.Data.Contracts</Name>

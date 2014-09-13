@@ -58,6 +58,14 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Kerberos.Crypto.Contracts\Kerberos.Crypto.Contracts.csproj">
+      <Project>{a83785e7-021a-4610-af5b-b94d065a143e}</Project>
+      <Name>Kerberos.Crypto.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kerberos.Crypto\Kerberos.Crypto.csproj">
+      <Project>{0eaa788d-ab35-4f9c-934c-e7cf5bddc949}</Project>
+      <Name>Kerberos.Crypto</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Kerberos.Data.Contracts\Kerberos.Data.Contracts.csproj">
       <Project>{9ba60e53-d0a3-4549-aaaf-bee355932c38}</Project>
       <Name>Kerberos.Data.Contracts</Name>
@@ -69,6 +77,14 @@
     <ProjectReference Include="..\Kerberos.Models\Kerberos.Models.csproj">
       <Project>{a33d037f-e0dc-4edb-9484-0f679407d493}</Project>
       <Name>Kerberos.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kerberos.Services.Api.Contracts\Kerberos.Services.Api.Contracts.csproj">
+      <Project>{217d030b-817f-4581-a414-259051df195b}</Project>
+      <Name>Kerberos.Services.Api.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kerberos.Services.Api\Kerberos.Services.Api.csproj">
+      <Project>{d3de54d8-f85b-4bd5-af17-e304918944cc}</Project>
+      <Name>Kerberos.Services.Api</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

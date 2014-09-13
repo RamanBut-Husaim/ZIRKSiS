@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Kerberos.Services.Api.Contracts
+namespace Kerberos.Services.Api.Contracts.Authentication
 {
     public interface IAuthenticationRequest
     {
