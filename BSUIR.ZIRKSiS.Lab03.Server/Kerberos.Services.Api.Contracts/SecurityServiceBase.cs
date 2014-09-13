@@ -1,5 +1,8 @@
 ﻿using System;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.Cryptography;
+using System.Text;
 using Kerberos.Crypto.Contracts;
 using Kerberos.Data.Contracts;
 
@@ -9,7 +12,7 @@ namespace Kerberos.Services.Api.Contracts
     {
         protected const int SessionKeyLength = 32;
 
-        protected const int BufferSize = 256;
+        protected const int BufferSize = 300;
 
         private const string TgsPasswordConst = "TgsPassword";
 
@@ -144,6 +147,75 @@ namespace Kerberos.Services.Api.Contracts
             using (var bytes = new Rfc2898DeriveBytes(password, salt.ToByteArray(), IterationCount))
             {
                 result = bytes.GetBytes(this._symmetricAlgorithm.LegalBlockSizes[0].MaxSize / 8);
+            }
+
+            return result;
+        }
+
+        protected byte[] Encrypt<T>(byte[] key, byte[] iv, T obj) where T : class 
+        {
+            byte[] serializedObject;
+            byte[] result;
+
+            using (var memoryStream = new MemoryStream())
+            {
+                var binaryFormatter = new BinaryFormatter();
+                binaryFormatter.Serialize(memoryStream, obj);
+                serializedObject = memoryStream.ToArray();
+            }
+
+            using (var encryptor = this.SymmetricAlgorithm.CreateEncryptor(key, iv))
+            {
+                using (var targetStream = new MemoryStream())
+                {
+                    using (var cryptoStream = new CryptoStream(targetStream, encryptor, CryptoStreamMode.Write))
+                    {
+                        using (var writer = new BinaryWriter(cryptoStream))
+                        {
+                            writer.Write(serializedObject);
+                            cryptoStream.FlushFinalBlock();
+                            result = targetStream.ToArray();
+                        }
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        protected T Decrypt<T>(byte[] key, byte[] iv, byte[] obj) where T : class 
+        {
+            var serializedObject = new byte[0];
+            T result;
+
+            using (var decryptor = this.SymmetricAlgorithm.CreateDecryptor(key, iv))
+            {
+                using (var targetStream = new MemoryStream(obj))
+                {
+                    using (var cryptoStream = new CryptoStream(targetStream, decryptor, CryptoStreamMode.Read))
+                    {
+                        using (var reader = new BinaryReader(cryptoStream, Encoding.ASCII))
+                        {
+                            byte[] buffer;
+                            do
+                            {
+                                buffer = reader.ReadBytes(SecurityServiceBase.BufferSize);
+                                int oldLength = serializedObject.Length;
+                                Array.Resize(ref serializedObject, serializedObject.Length + buffer.Length);
+                                Array.Copy(buffer, 0, serializedObject, oldLength, buffer.Length);
+                            }
+                            while (buffer.Length == SecurityServiceBase.BufferSize);
+                        }
+                    }
+                }
+            }
+
+            using (var memoryStream = new MemoryStream())
+            {
+                memoryStream.Write(serializedObject, 0, serializedObject.Length);
+                memoryStream.Position = 0;
+                var binaryFormatter = new BinaryFormatter();
+                result = binaryFormatter.Deserialize(memoryStream) as T;
             }
 
             return result;

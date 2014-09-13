@@ -2,7 +2,6 @@
 using System.IO;
 using System.Text;
 using Kerberos.Services.Api.Contracts;
-using Kerberos.Services.Api.Contracts.Authentication;
 using Kerberos.Services.Api.Contracts.Tracing;
 
 namespace Kerberos.Services.Api.Tracing
@@ -17,74 +16,59 @@ namespace Kerberos.Services.Api.Tracing
             this._streamWriter = new StreamWriter(pathToFile, false, Encoding.UTF8);
         }
 
-        public void TraceAuthRequest(string operationName, IAuthenticationRequest authenticationRequest)
+        public void Trace<T>(string operationName, T obj) where T : class
         {
             this.TraceStart(operationName);
 
-            this._streamWriter.WriteLine("---------------------------------------------------------");
-            this._streamWriter.WriteLine("Authentication request: ");
-            this._streamWriter.WriteLine("UserId: " + authenticationRequest.UserId);
-            this._streamWriter.WriteLine("Server Id: " + authenticationRequest.ServerId);
-            this._streamWriter.WriteLine("Time stamp: " + authenticationRequest.TimeStamp);
-            this._streamWriter.WriteLine("---------------------------------------------------------");
+            this.TraceType(obj);
 
             this.TraceEnd(operationName);
         }
 
-        public void TraceTgsAuthenticationReply(string operationName, ITgsToken tgsToken, ITgtToken tgtToken)
+        public void Trace<T1, T2>(string operationName, T1 obj1, T2 obj2) where T1 : class where T2 : class
         {
             this.TraceStart(operationName);
 
-           this.TraceTgsInternal(tgsToken);
+            this.TraceType(obj1);
 
-            this._streamWriter.WriteLine("---------------------------------------------------------");
-            this._streamWriter.WriteLine("Tgt token: ");
-            this._streamWriter.WriteLine("Client Id: " + tgtToken.ClientId);
-            this._streamWriter.WriteLine("IP: " + tgtToken.IpAddress.ToTheString());
-            this._streamWriter.WriteLine("Life Stamp: " + new TimeSpan(tgtToken.LifeStamp));
-            this._streamWriter.WriteLine("Time Stamp: " + new DateTime(tgtToken.TimeStamp));
-            this._streamWriter.WriteLine("Session Key: " + tgtToken.SessionKey.ToTheString());
-            this._streamWriter.WriteLine("---------------------------------------------------------");
+            this.TraceType(obj2);
 
             this.TraceEnd(operationName);
         }
 
-        public void TraceTgsToken(string operationName, ITgsToken tgsToken)
+        public void TraceType<T>(T obj) where T : class
         {
-            this.TraceStart(operationName);
-
-            this.TraceTgsInternal(tgsToken);
-
-            this.TraceEnd(operationName);
-        }
-
-        private void TraceTgsInternal(ITgsToken tgsToken)
-        {
+            Type typeDesc = typeof(T);
             this._streamWriter.WriteLine("---------------------------------------------------------");
-            this._streamWriter.WriteLine("Tgs token: ");
-            this._streamWriter.WriteLine("Id: " + tgsToken.Id);
-            this._streamWriter.WriteLine("Lifetime: " + new TimeSpan(tgsToken.LifeTime));
-            this._streamWriter.WriteLine("Session Key: " + tgsToken.SessionKey.ToTheString());
-            this._streamWriter.WriteLine("---------------------------------------------------------");
-        }
+            this._streamWriter.WriteLine(typeDesc.Name);
+            foreach (var property in typeDesc.GetProperties())
+            {
+                if (property.CanRead)
+                {
+                    var value = property.GetValue(obj);
+                    if (property.PropertyType == typeof(byte[]))
+                    {
+                        this._streamWriter.WriteLine(property.Name + ": " + ((byte[])value).ToTheString());
+                        continue;
+                    }
 
-        public void TraceByteArray(string operation, byte[] data)
-        {
-            this._streamWriter.WriteLine("---------------------------------------------------------");
-            this._streamWriter.WriteLine(operation + data.ToTheString());
-            this._streamWriter.WriteLine("---------------------------------------------------------");
-        }
+                    if (property.PropertyType == typeof(long) && property.Name.Contains("Life"))
+                    {
+                        this._streamWriter.WriteLine(property.Name + ": " + new DateTime((long)value, DateTimeKind.Utc));
+                        continue;
+                    }
 
-        public void TraceTgsAuthenticationReply(string operationName, byte[] tgsToken, byte[] tgtToken)
-        {
-            this.TraceStart(operationName);
+                    if (property.PropertyType == typeof(long) && property.Name.Contains("Time"))
+                    {
+                        this._streamWriter.WriteLine(property.Name + ": " + new TimeSpan((long)value));
+                        continue;
+                    }
+
+                    this._streamWriter.WriteLine(property.Name + ": " + value.ToString());
+                }
+            }
 
             this._streamWriter.WriteLine("---------------------------------------------------------");
-            this._streamWriter.WriteLine("Tgs encrypted: " + tgsToken.ToTheString());
-            this._streamWriter.WriteLine("Tgt encrypted: " + tgtToken.ToTheString());
-            this._streamWriter.WriteLine("---------------------------------------------------------");
-
-            this.TraceEnd(operationName);
         }
 
         private void TraceStart(string operationName)

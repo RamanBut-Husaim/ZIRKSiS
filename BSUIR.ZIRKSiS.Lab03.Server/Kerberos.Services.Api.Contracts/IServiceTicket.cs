@@ -1,6 +1,6 @@
 ﻿namespace Kerberos.Services.Api.Contracts
 {
-    public interface ITgtToken
+    public interface IServiceTicket
     {
         string ClientId { get; }
         byte[] IpAddress { get; }

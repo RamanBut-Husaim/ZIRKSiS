@@ -1,5 +1,4 @@
 ﻿using System;
-using Kerberos.Services.Api.Contracts;
 using Kerberos.Services.Api.Contracts.Authentication;
 
 namespace Kerberos.Services.Api.Authentication

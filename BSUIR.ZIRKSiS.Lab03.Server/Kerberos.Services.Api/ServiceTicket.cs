@@ -4,7 +4,7 @@ using Kerberos.Services.Api.Contracts;
 namespace Kerberos.Services.Api
 {
     [Serializable]
-    internal sealed class TgtToken : ITgtToken
+    internal sealed class ServiceTicket : IServiceTicket
     {
         private string _clientId;
 

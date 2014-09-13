@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Security.Cryptography;
-using System.Text;
+using System.Runtime.CompilerServices;
 using Kerberos.Crypto.Contracts;
 using Kerberos.Data.Contracts;
 using Kerberos.Models;
@@ -45,7 +42,7 @@ namespace Kerberos.Services.Api.Authentication
         {
             var authenticationReply = new AuthenticationReply();
 
-            this._traceManager.TraceAuthRequest("Authentication Request Received", authenticationRequest);
+            this._traceManager.Trace("Authentication Request Received", authenticationRequest);
 
             IEnumerable<User> users =
                 this.UnitOfWork.Repository<User, int>()
@@ -61,10 +58,10 @@ namespace Kerberos.Services.Api.Authentication
 
                 ITgsToken tgsToken = this.CreateTgsToken(sessionKey);
                 ITgtToken tgtToken = this.CreateTgtToken(user, sessionKey);
-                this._traceManager.TraceTgsAuthenticationReply("TGS Generate tokens", tgsToken, tgtToken);
+                this._traceManager.Trace("TGS Generate tokens", tgsToken, tgtToken);
                 authenticationReply.TgsBytes = this.EncryptTgsToken(user, tgsToken);
                 authenticationReply.TgtBytes = this.EncryptTgtToken(tgtToken);
-                this._traceManager.TraceTgsAuthenticationReply("TGS Encrypt tokens", authenticationReply.TgsBytes, authenticationReply.TgtBytes);
+                this._traceManager.Trace("TGS Encrypt tokens", Tuple.Create(authenticationReply.TgsBytes, authenticationReply.TgtBytes));
             }
             else
             {
@@ -74,6 +71,7 @@ namespace Kerberos.Services.Api.Authentication
             return authenticationReply;
         }
 
+        //TODO: move to separate class (used by client).
         public ITgsToken DecryptReply(string userId, IAuthenticationReply authenticationReply)
         {
             ITgsToken tgsToken = null;
@@ -121,7 +119,7 @@ namespace Kerberos.Services.Api.Authentication
             {
                 ClientId = user.Email,
                 IpAddress = new byte[] { 0, 1, 2 },
-                LifeStamp = new TimeSpan(1, 0, 0).Ticks,
+                LifeTime = new TimeSpan(1, 0, 0).Ticks,
                 SessionKey = sessionKey,
                 TimeStamp = DateTime.UtcNow.Ticks
             };
@@ -134,43 +132,7 @@ namespace Kerberos.Services.Api.Authentication
             byte[] key = this.GenerateKey(user.PasswordHash, user.PasswordSalt);
             byte[] iv = this.GenerateIV(user.PasswordHash, user.PasswordSalt);
 
-            Trace.WriteLine("Dec Key: " + key.ToTheString());
-            Trace.WriteLine("Dec IV: " + iv.ToTheString());
-
-            var serializedObject = new byte[0];
-            ITgsToken result;
-
-            using (var decryptor = this.SymmetricAlgorithm.CreateDecryptor(key, iv))
-            {
-                using (var targetStream = new MemoryStream(tgsToken))
-                {
-                    using (var cryptoStream = new CryptoStream(targetStream, decryptor, CryptoStreamMode.Read))
-                    {
-                        using (var reader = new BinaryReader(cryptoStream, Encoding.ASCII))
-                        {
-                            byte[] buffer;
-                            do
-                            {
-                                buffer = reader.ReadBytes(SecurityServiceBase.BufferSize);
-                                int oldLength = serializedObject.Length;
-                                Array.Resize(ref serializedObject, serializedObject.Length + buffer.Length);
-                                Array.Copy(buffer, 0, serializedObject, oldLength, buffer.Length);
-                            }
-                            while (buffer.Length == SecurityServiceBase.BufferSize);
-                        }
-                    }
-                }
-            }
-
-            using (var memoryStream = new MemoryStream())
-            {
-                memoryStream.Write(serializedObject, 0, serializedObject.Length);
-                memoryStream.Position = 0;
-                var binaryFormatter = new BinaryFormatter();
-                result = binaryFormatter.Deserialize(memoryStream) as ITgsToken;
-            }
-
-            return result;
+            return this.Decrypt<ITgsToken>(key, iv, tgsToken);
         }
 
         private byte[] EncryptTgsToken(User user, ITgsToken tgsToken)
@@ -178,67 +140,18 @@ namespace Kerberos.Services.Api.Authentication
             byte[] key = this.GenerateKey(user.PasswordHash, user.PasswordSalt);
             byte[] iv = this.GenerateIV(user.PasswordHash, user.PasswordSalt);
 
-            Trace.WriteLine("Enc Key: " + key.ToTheString());
-            Trace.WriteLine("Enc IV: " + iv.ToTheString());
-
-            byte[] serializedObject;
-            byte[] result;
-
-            using (var memoryStream = new MemoryStream())
-            {
-                var binaryFormatter = new BinaryFormatter();
-                binaryFormatter.Serialize(memoryStream, tgsToken);
-                serializedObject = memoryStream.ToArray();
-            }
-           
-            using (var encryptor = this.SymmetricAlgorithm.CreateEncryptor(key, iv))
-            {
-                using (var targetStream = new MemoryStream())
-                {
-                    using (var cryptoStream = new CryptoStream(targetStream, encryptor, CryptoStreamMode.Write))
-                    {
-                        using (var writer = new BinaryWriter(cryptoStream))
-                        {
-                            writer.Write(serializedObject);
-                        }
-
-                        result = targetStream.ToArray();
-                    }
-                }
-            }
-
-            return result;
+            return this.Encrypt(key, iv, tgsToken);
         }
 
         private byte[] EncryptTgtToken(ITgtToken tgtToken)
         {
-            byte[] serializedObject;
-            byte[] result;
+            byte[] key = this.TgsKey;
+            byte[] iv = this.TgsIV;
 
-            using (var memoryStream = new MemoryStream())
-            {
-                var binaryFormatter = new BinaryFormatter();
-                binaryFormatter.Serialize(memoryStream, tgtToken);
-                serializedObject = memoryStream.ToArray();
-            }
+            Trace.WriteLine("TGS ENC: " + key.ToTheString());
+            Trace.WriteLine("IV ENC: " + iv.ToTheString());
 
-            using (var encryptor = this.SymmetricAlgorithm.CreateEncryptor(this.TgsKey, this.TgsIV))
-            {
-                using (var targetStream = new MemoryStream())
-                {
-                    using (var cryptoStream = new CryptoStream(targetStream, encryptor, CryptoStreamMode.Write))
-                    {
-                        using (var writer = new BinaryWriter(cryptoStream))
-                        {
-                            writer.Write(serializedObject);
-                        }
-
-                        result = targetStream.ToArray();
-                    }
-                }
-            }
-
-            return result;
+            return this.Encrypt(key, iv, tgtToken);
         }
     }
 }

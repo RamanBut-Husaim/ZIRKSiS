@@ -4,19 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Kerberos.Services.Api.Contracts.Authentication;
+using Kerberos.Services.Api.Contracts.Authorization;
 
 namespace Kerberos.Services.Api.Contracts.Tracing
 {
     public interface ITraceManager : IDisposable
     {
-        void TraceAuthRequest(string operationName, IAuthenticationRequest authenticationRequest);
+        void Trace<T>(string operationName, T obj) where T : class;
 
-        void TraceTgsAuthenticationReply(string operationName, ITgsToken tgsToken, ITgtToken tgtToken);
-
-        void TraceTgsAuthenticationReply(string operationName, byte[] tgsToken, byte[] tgtToken);
-
-        void TraceTgsToken(string operationName, ITgsToken tgsToken);
-
-        void TraceByteArray(string operation, byte[] data);
+        void Trace<T1, T2>(string operationName, T1 obj1, T2 obj2) where T1 : class where T2 : class;
     }
 }
