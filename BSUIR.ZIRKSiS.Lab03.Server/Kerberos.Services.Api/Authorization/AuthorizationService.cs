@@ -85,6 +85,7 @@ namespace Kerberos.Services.Api.Authorization
                 this._traceManager.Trace("Authenticator decrypted", authenticator);
 
                 var sessionKey = new byte[SessionKeyLength];
+                this.GetRandomBytes(sessionKey);
                 IServiceTicket serviceTicket = this.CreateServiceTicket(tgtToken, sessionKey);
                 IServiceToken serviceToken = this.CreateServiceToken(sessionKey);
                 this._traceManager.Trace("Authorization reply created", serviceTicket, serviceToken);
@@ -95,6 +96,25 @@ namespace Kerberos.Services.Api.Authorization
             }
 
             return authorizationReply;
+        }
+
+        public IServiceToken DecryptReply(string userId, IAuthorizationReply reply, byte[] sessionKey)
+        {
+            IServiceToken result = null;
+
+            IEnumerable<User> users =
+               this.UnitOfWork.Repository<User, int>()
+                   .Query()
+                   .Filter(p => p.Email.Equals(userId, StringComparison.OrdinalIgnoreCase))
+                   .Get();
+
+            User user = users.FirstOrDefault();
+            if (user != null)
+            {
+                result = this.DecryptServiceToken(user, sessionKey, reply.ServiceToken);
+            }
+
+            return result;
         }
 
         protected override void Dispose(bool disposing)
@@ -108,6 +128,13 @@ namespace Kerberos.Services.Api.Authorization
             }
 
             base.Dispose(disposing);
+        }
+
+        private IServiceToken DecryptServiceToken(User user, byte[] sessionKey, byte[] serviceTokeBytes)
+        {
+            byte[] iv = this.GenerateIV(user.PasswordHash, user.PasswordSalt);
+
+            return this.Decrypt<IServiceToken>(sessionKey, iv, serviceTokeBytes);
         }
 
         private byte[] EncryptServiceTicket(IServiceTicket serviceTicket)

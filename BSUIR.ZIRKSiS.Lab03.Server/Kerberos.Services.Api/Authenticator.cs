@@ -1,7 +1,7 @@
 ﻿using System;
-using Kerberos.Services.Api.Contracts.Authorization;
+using Kerberos.Services.Api.Contracts;
 
-namespace Kerberos.Services.Api.Authorization
+namespace Kerberos.Services.Api
 {
     [Serializable]
     public sealed class Authenticator : IAuthenticator

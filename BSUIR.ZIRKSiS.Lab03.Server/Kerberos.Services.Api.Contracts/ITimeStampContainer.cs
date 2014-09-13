@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kerberos.Services.Api.Contracts.Authorization
+namespace Kerberos.Services.Api.Contracts
 {
-    public interface IAuthenticator
+    public interface ITimeStampContainer
     {
-        string ClientId { get; }
         long TimeStamp { get; }
     }
 }

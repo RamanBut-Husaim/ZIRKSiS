@@ -25,6 +25,13 @@ namespace Kerberos.Services.Api.Tracing
             this.TraceEnd(operationName);
         }
 
+        public void Trace(string message)
+        {
+            this._streamWriter.WriteLine("---------------------------------------------------------");
+            this._streamWriter.WriteLine(message);
+            this._streamWriter.WriteLine("---------------------------------------------------------");
+        }
+
         public void Trace<T1, T2>(string operationName, T1 obj1, T2 obj2) where T1 : class where T2 : class
         {
             this.TraceStart(operationName);
@@ -36,7 +43,7 @@ namespace Kerberos.Services.Api.Tracing
             this.TraceEnd(operationName);
         }
 
-        public void TraceType<T>(T obj) where T : class
+        private void TraceType<T>(T obj) where T : class
         {
             Type typeDesc = typeof(T);
             this._streamWriter.WriteLine("---------------------------------------------------------");

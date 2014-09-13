@@ -42,15 +42,19 @@
     <Compile Include="Authentication\AuthenticationReply.cs" />
     <Compile Include="Authentication\AuthenticationRequest.cs" />
     <Compile Include="Authentication\AuthenticationService.cs" />
-    <Compile Include="Authorization\Authenticator.cs" />
+    <Compile Include="Authenticator.cs" />
     <Compile Include="Authorization\AuthorizationReply.cs" />
     <Compile Include="Authorization\AuthorizationRequest.cs" />
     <Compile Include="Authorization\AuthorizationService.cs" />
+    <Compile Include="DataService\DataService.cs" />
+    <Compile Include="DataService\DataServiceReply.cs" />
+    <Compile Include="DataService\DataServiceRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceTicket.cs" />
     <Compile Include="ServiceToken.cs" />
     <Compile Include="TgsToken.cs" />
     <Compile Include="TgtToken.cs" />
+    <Compile Include="TimeStampContainer.cs" />
     <Compile Include="Tracing\TraceManager.cs" />
   </ItemGroup>
   <ItemGroup>
