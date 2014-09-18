@@ -15,9 +15,9 @@ namespace Stenography.Core
         {
             int result = 0;
 
-            for (int i = startIndex; i < Math.Min(startIndex + Math.Min(count, 4), @this.Length); ++i)
+            for (int i = 0, counter = startIndex; counter < Math.Min(startIndex + Math.Min(count, 4), @this.Length); i++, counter++)
             {
-                result |= @this[i] << (i * 8);
+                result |= @this[counter] << ((count - i - 1) * 8);
             }
 
             return result;

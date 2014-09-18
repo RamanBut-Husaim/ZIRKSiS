@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 
 namespace Stenography.Core
 {
-    internal sealed class Mp3DataAnalyzer : ILsbDataAnalyzer
+    public sealed class Mp3DataAnalyzer : ILsbDataAnalyzer
     {
-        private const int HeaderPattern = 0x7FF;
+        private const int HeaderPattern = 0xFFE0;
+
         private bool _disposed;
 
         private byte[] _fileData;
@@ -37,18 +38,55 @@ namespace Stenography.Core
 
         public AnalyzationInfo Analyze()
         {
+            var startIndex = this.GetStartFrameHeaderIndex();
+            var result = new AnalyzationInfo(startIndex, 0, 0);
+            var b = _fileData[1629];
+            var c = _fileData[1630];
+            var frameHeaders = this.GetFrameHeadersStartIndexes();
 
+            return result;
+        }
+
+        private IList<int> GetFrameHeadersStartIndexes()
+        {
+            IList<int> result = new List<int>();
+
+            int temp = 0;
+
+            for (int i = 0; i <= this._fileData.Length - 2; ++i)
+            {
+                if (i == 1628)
+                {
+                    int c = i;
+                }
+                var a = this._fileData[i];
+                var b = this._fileData[i + 1];
+                int part = this._fileData.ToInt(i, 2);
+                int scanResult = this.ScanInt(part);
+                temp += scanResult == -1 ? 8 : scanResult;
+                if (scanResult != -1)
+                {
+                    result.Add(temp);
+                    temp = temp - scanResult + 8;
+                }
+            }
+
+            return result;
         }
 
         private int GetStartFrameHeaderIndex()
         {
             int result = 0;
 
-            for (int i = 0; i < this._fileData.Length - 3; ++i)
+            for (int i = 0; i <= this._fileData.Length - 2; ++i)
             {
-                int part = this._fileData.ToInt(i, 3);
+                int part = this._fileData.ToInt(i, 2);
                 int scanResult = this.ScanInt(part);
                 result += scanResult == -1 ? 8 : scanResult;
+                if (scanResult != -1)
+                {
+                    break;
+                }
             }
 
             return result;
@@ -59,9 +97,9 @@ namespace Stenography.Core
             int result = -1;
 
             int temp = value;
-            for (int i = 0; i < 6; ++i)
+            for (int i = 0; i < 1; ++i)
             {
-                if (((temp >> i) & HeaderPattern) == HeaderPattern)
+                if (((temp << i) & HeaderPattern) == HeaderPattern)
                 {
                     result = i;
                     break;
