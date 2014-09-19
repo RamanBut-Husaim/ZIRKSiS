@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
 using Stenography.Core;
 
 namespace Stenography.Console
@@ -20,8 +14,8 @@ namespace Stenography.Console
             //data = new byte[] { 0x76, 0x6E, 0xFE, 0x6F, 0x4E };
             //dataAnalyzer = new Mp3DataAnalyzer(data);
             //var result3 = dataAnalyzer.Analyze();
-
-            var dataAnalyzer = new Mp3DataAnalyzer(File.ReadAllBytes("track.mp3"));
+            IHeaderParser headerParser = new ID3v2HeaderParser();
+            var dataAnalyzer = new Mp3DataAnalyzer(File.ReadAllBytes("track.mp3"), headerParser);
             var result4 = dataAnalyzer.Analyze();
         }
     }

@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Stenography.Core
 {
@@ -15,19 +12,24 @@ namespace Stenography.Core
 
         private byte[] _fileData;
 
-        public Mp3DataAnalyzer(string fileName)
+        private readonly IHeaderParser _headerParser;
+
+        public Mp3DataAnalyzer(string fileName, IHeaderParser headerParser)
         {
             this._fileData = File.ReadAllBytes(fileName);
+            this._headerParser = headerParser;
         }
 
-        public Mp3DataAnalyzer(Stream stream)
+        public Mp3DataAnalyzer(Stream stream, IHeaderParser headerParser)
         {
+            this._headerParser = headerParser;
             this.Init(stream);
         }
 
-        public Mp3DataAnalyzer(byte[] fileData)
+        public Mp3DataAnalyzer(byte[] fileData, IHeaderParser headerParser)
         {
             this._fileData = fileData.Clone() as byte[];
+            this._headerParser = headerParser;
         }
 
         private void Init(Stream stream)
@@ -40,11 +42,20 @@ namespace Stenography.Core
         {
             var startIndex = this.GetStartFrameHeaderIndex();
             var result = new AnalyzationInfo(startIndex, 0, 0);
-            var b = _fileData[1629];
-            var c = _fileData[1630];
-            var frameHeaders = this.GetFrameHeadersStartIndexes();
+            IList<int> frameHeaders = this.GetFrameHeadersStartIndexes();
+            HeaderType headerType = this.AnalyzeFileHeader();
 
             return result;
+        }
+
+        private HeaderType AnalyzeFileHeader()
+        {
+            if (_headerParser.IsValid(this._fileData))
+            {
+                return _headerParser.Parse(this._fileData);
+            }
+
+            throw new NotSupportedException("The file with empty tag header is not supported.");
         }
 
         private IList<int> GetFrameHeadersStartIndexes()
@@ -55,12 +66,6 @@ namespace Stenography.Core
 
             for (int i = 0; i <= this._fileData.Length - 2; ++i)
             {
-                if (i == 1628)
-                {
-                    int c = i;
-                }
-                var a = this._fileData[i];
-                var b = this._fileData[i + 1];
                 int part = this._fileData.ToInt(i, 2);
                 int scanResult = this.ScanInt(part);
                 temp += scanResult == -1 ? 8 : scanResult;

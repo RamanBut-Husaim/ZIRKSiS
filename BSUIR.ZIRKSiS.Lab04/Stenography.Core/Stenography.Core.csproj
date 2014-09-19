@@ -41,6 +41,9 @@
   <ItemGroup>
     <Compile Include="AnalyzationInfo.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="HeaderType.cs" />
+    <Compile Include="ID3v2HeaderParser.cs" />
+    <Compile Include="IHeaderParser.cs" />
     <Compile Include="ILsbDataAnalyzer.cs" />
     <Compile Include="ILsbDataWriter.cs" />
     <Compile Include="IStenographyProvider.cs" />
