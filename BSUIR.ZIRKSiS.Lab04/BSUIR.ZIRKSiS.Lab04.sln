@@ -15,6 +15,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stenography.Core.Text", "St
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stenography.Text.Console", "Stenography.Text.Console\Stenography.Text.Console.csproj", "{6F9CC9CE-8944-4EF0-9879-5386E7C68A9E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stenography.Core.Image", "Stenography.Core.Image\Stenography.Core.Image.csproj", "{1DAE4BCF-D99B-4923-AB29-1483B0EC8C0C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stenography.Image.Console", "Stenography.Image.Console\Stenography.Image.Console.csproj", "{FA0F3647-EA97-4EC0-AF7E-D748DAAB9252}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +49,14 @@ Global
 		{6F9CC9CE-8944-4EF0-9879-5386E7C68A9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6F9CC9CE-8944-4EF0-9879-5386E7C68A9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6F9CC9CE-8944-4EF0-9879-5386E7C68A9E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1DAE4BCF-D99B-4923-AB29-1483B0EC8C0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1DAE4BCF-D99B-4923-AB29-1483B0EC8C0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1DAE4BCF-D99B-4923-AB29-1483B0EC8C0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1DAE4BCF-D99B-4923-AB29-1483B0EC8C0C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA0F3647-EA97-4EC0-AF7E-D748DAAB9252}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA0F3647-EA97-4EC0-AF7E-D748DAAB9252}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA0F3647-EA97-4EC0-AF7E-D748DAAB9252}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA0F3647-EA97-4EC0-AF7E-D748DAAB9252}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
