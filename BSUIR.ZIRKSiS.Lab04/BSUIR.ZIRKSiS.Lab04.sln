@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stenography.Core.Sound", "S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stenography.Core.Contract", "Stenography.Core.Contract\Stenography.Core.Contract.csproj", "{9C53C9BA-6CF7-4F8D-ADAE-FB3D6FDB8564}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stenography.Core.Text", "Stenography.Core.Text\Stenography.Core.Text.csproj", "{F9EA7BF9-FB4A-40D2-AB79-5A5603ACDD16}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stenography.Text.Console", "Stenography.Text.Console\Stenography.Text.Console.csproj", "{6F9CC9CE-8944-4EF0-9879-5386E7C68A9E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,14 @@ Global
 		{9C53C9BA-6CF7-4F8D-ADAE-FB3D6FDB8564}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9C53C9BA-6CF7-4F8D-ADAE-FB3D6FDB8564}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9C53C9BA-6CF7-4F8D-ADAE-FB3D6FDB8564}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9EA7BF9-FB4A-40D2-AB79-5A5603ACDD16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9EA7BF9-FB4A-40D2-AB79-5A5603ACDD16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9EA7BF9-FB4A-40D2-AB79-5A5603ACDD16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9EA7BF9-FB4A-40D2-AB79-5A5603ACDD16}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F9CC9CE-8944-4EF0-9879-5386E7C68A9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F9CC9CE-8944-4EF0-9879-5386E7C68A9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F9CC9CE-8944-4EF0-9879-5386E7C68A9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F9CC9CE-8944-4EF0-9879-5386E7C68A9E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
