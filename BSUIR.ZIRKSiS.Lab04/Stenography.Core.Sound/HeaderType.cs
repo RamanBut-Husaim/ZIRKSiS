@@ -1,4 +1,4 @@
-﻿namespace Stenography.Core
+﻿namespace Stenography.Core.Sound
 {
     public struct HeaderType
     {

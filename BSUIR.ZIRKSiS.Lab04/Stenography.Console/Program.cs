@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using Stenography.Core;
+using Stenography.Core.Sound;
 
 namespace Stenography.Console
 {
@@ -15,7 +16,8 @@ namespace Stenography.Console
             //dataAnalyzer = new Mp3DataAnalyzer(data);
             //var result3 = dataAnalyzer.Analyze();
             IHeaderParser headerParser = new ID3v2HeaderParser();
-            var dataAnalyzer = new Mp3DataAnalyzer(File.ReadAllBytes("track.mp3"), headerParser);
+            IFrameDescriptorBuilder frameDescriptorBuilder = FrameDescriptorBuilder.Create();
+            var dataAnalyzer = new Mp3DataAnalyzer(File.ReadAllBytes("track.mp3"), headerParser, frameDescriptorBuilder);
             var result4 = dataAnalyzer.Analyze();
         }
     }

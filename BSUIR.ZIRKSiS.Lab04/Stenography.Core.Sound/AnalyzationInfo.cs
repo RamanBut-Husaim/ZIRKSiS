@@ -1,23 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Stenography.Core
+﻿namespace Stenography.Core.Sound
 {
     public struct AnalyzationInfo
     {
         private int _frameNumber;
 
-        private int _frameSize;
-
         private int _availableBits;
 
-        public AnalyzationInfo(int frameNumber, int frameSize, int availableBits)
+        public AnalyzationInfo(int frameNumber, int availableBits)
         {
             this._frameNumber = frameNumber;
-            this._frameSize = frameSize;
             this._availableBits = availableBits;
         }
 
@@ -26,14 +17,6 @@ namespace Stenography.Core
             get
             {
                 return this._frameNumber;
-            }
-        }
-
-        public int FrameSize
-        {
-            get
-            {
-                return this._frameSize;
             }
         }
 

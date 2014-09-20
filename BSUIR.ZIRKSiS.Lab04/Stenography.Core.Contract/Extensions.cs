@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Stenography.Core
+namespace Stenography.Core.Contract
 {
     public static class Extensions
     {

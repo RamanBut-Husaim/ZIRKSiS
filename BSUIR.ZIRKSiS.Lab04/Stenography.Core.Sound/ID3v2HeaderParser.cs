@@ -1,21 +1,16 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Stenography.Core
+namespace Stenography.Core.Sound
 {
     public sealed class ID3v2HeaderParser : IHeaderParser
     {
         private const int ID3v2HeaderSize = 10;
-        private string _headerName;
         private const string HeaderName = "ID3";
         private const int SizeLenght = 4;
         private const int SizeStartIndex = 6;
         private const int SizeMask = 0x7F;
-
+        private string _headerName;
+        
         public ID3v2HeaderParser()
         {
         }
@@ -37,7 +32,7 @@ namespace Stenography.Core
 
         private bool VerifyHeaderName(byte[] tagHeader)
         {
-            var headerNameChars = new [] { (char) tagHeader[0], (char) tagHeader[1], (char) tagHeader[2] };
+            var headerNameChars = new[] { (char)tagHeader[0], (char)tagHeader[1], (char)tagHeader[2] };
             return HeaderName.Equals(new string(headerNameChars), StringComparison.OrdinalIgnoreCase);
         }
 
@@ -48,7 +43,7 @@ namespace Stenography.Core
             int result = 0;
             for (int i = 0; i < buffer.Length; ++i)
             {
-                result |= (buffer[i] << (SizeLenght - i - 1) * 7);
+                result |= buffer[i] << ((SizeLenght - i - 1) * 7);
             }
 
             return result + ID3v2HeaderSize;

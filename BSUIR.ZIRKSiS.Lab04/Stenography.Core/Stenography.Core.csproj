@@ -39,17 +39,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AnalyzationInfo.cs" />
-    <Compile Include="Extensions.cs" />
-    <Compile Include="HeaderType.cs" />
-    <Compile Include="ID3v2HeaderParser.cs" />
-    <Compile Include="IHeaderParser.cs" />
-    <Compile Include="ILsbDataAnalyzer.cs" />
-    <Compile Include="ILsbDataWriter.cs" />
-    <Compile Include="IStenographyProvider.cs" />
     <Compile Include="LsbStenographyProvider.cs" />
-    <Compile Include="Mp3DataAnalyzer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Stenography.Core.Contract\Stenography.Core.Contract.csproj">
+      <Project>{9c53c9ba-6cf7-4f8d-adae-fb3d6fdb8564}</Project>
+      <Name>Stenography.Core.Contract</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Stenography.Core.Sound\Stenography.Core.Sound.csproj">
+      <Project>{9203efb4-5bf5-44d9-9db0-0f5cbbb14370}</Project>
+      <Name>Stenography.Core.Sound</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -4,16 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{ADA39D61-1192-4792-9E35-34AA419ED89C}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{9203EFB4-5BF5-44D9-9DB0-0F5CBBB14370}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Stenography.Console</RootNamespace>
-    <AssemblyName>Stenography.Console</AssemblyName>
+    <RootNamespace>Stenography.Core.Sound</RootNamespace>
+    <AssemblyName>Stenography.Core.Sound</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,7 +22,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -41,24 +39,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="AnalyzationInfo.cs" />
+    <Compile Include="FrameDescriptorBuilder.cs" />
+    <Compile Include="HeaderType.cs" />
+    <Compile Include="ID3v2HeaderParser.cs">
+      <SubType>
+      </SubType>
+    </Compile>
+    <Compile Include="IFrameDescriptorBuilder.cs" />
+    <Compile Include="IHeaderParser.cs" />
+    <Compile Include="Mp3DataAnalyzer.cs" />
+    <Compile Include="MPEG1FrameDescriptor.cs" />
+    <Compile Include="MPEG25FrameDescriptor.cs" />
+    <Compile Include="MPEG2FrameDescriptor.cs" />
+    <Compile Include="MPEGVersionFrameDescriptor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Stenography.Core.Contract\Stenography.Core.Contract.csproj">
       <Project>{9c53c9ba-6cf7-4f8d-adae-fb3d6fdb8564}</Project>
       <Name>Stenography.Core.Contract</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Stenography.Core.Sound\Stenography.Core.Sound.csproj">
-      <Project>{9203efb4-5bf5-44d9-9db0-0f5cbbb14370}</Project>
-      <Name>Stenography.Core.Sound</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Stenography.Core\Stenography.Core.csproj">
-      <Project>{338421ac-8f0d-4b01-a769-4952da054742}</Project>
-      <Name>Stenography.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
