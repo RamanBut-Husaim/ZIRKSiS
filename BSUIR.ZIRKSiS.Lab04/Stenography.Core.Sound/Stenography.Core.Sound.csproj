@@ -39,7 +39,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AnalyzationInfo.cs" />
     <Compile Include="FrameDescriptorBuilder.cs" />
     <Compile Include="HeaderType.cs" />
     <Compile Include="ID3v2HeaderParser.cs">
@@ -49,10 +48,11 @@
     <Compile Include="IFrameDescriptorBuilder.cs" />
     <Compile Include="IHeaderParser.cs" />
     <Compile Include="Mp3DataAnalyzer.cs" />
+    <Compile Include="Mp3DataReader.cs" />
+    <Compile Include="Mp3DataWriter.cs" />
     <Compile Include="MPEG1FrameDescriptor.cs" />
     <Compile Include="MPEG25FrameDescriptor.cs" />
     <Compile Include="MPEG2FrameDescriptor.cs" />
-    <Compile Include="MPEGVersionFrameDescriptor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

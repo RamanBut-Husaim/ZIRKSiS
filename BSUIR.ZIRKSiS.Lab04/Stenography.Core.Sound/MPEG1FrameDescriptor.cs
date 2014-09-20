@@ -1,4 +1,5 @@
 ﻿using System;
+using Stenography.Core.Contract;
 
 namespace Stenography.Core.Sound
 {

@@ -1,4 +1,6 @@
-﻿namespace Stenography.Core.Sound
+﻿using Stenography.Core.Contract;
+
+namespace Stenography.Core.Sound
 {
     internal sealed class MPEG2FrameDescriptor : MPEGVersionFrameDescriptor
     {

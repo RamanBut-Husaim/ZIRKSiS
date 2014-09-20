@@ -22,5 +22,17 @@ namespace Stenography.Core.Contract
 
             return result;
         }
+
+        public static byte[] ToByteArray(this int @this)
+        {
+            var result = new byte[sizeof(int)];
+
+            result[0] = (byte)((@this >> 24) & 0xFF);
+            result[1] = (byte)((@this >> 16) & 0xFF);
+            result[2] = (byte)((@this >> 8) & 0xFF);
+            result[3] = (byte)((@this >> 0) & 0xFF);
+
+            return result;
+        }
     }
 }

@@ -4,5 +4,6 @@ namespace Stenography.Core.Contract
 {
     public interface ILsbDataAnalyzer : IDisposable
     {
+        AnalyzationInfo Analyze();
     }
 }

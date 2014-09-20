@@ -1,97 +1,75 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using Stenography.Core.Contract;
 
 namespace Stenography.Core.Sound
 {
-    public sealed class Mp3DataAnalyzer : ILsbDataAnalyzer
+    public sealed class Mp3DataAnalyzer : IMp3DataAnalyzer
     {
         private const int HeaderPattern = 0xFFE0;
-
         private const int FrameHeaderSize = 4;
-
-        private bool _disposed;
-
-        private byte[] _fileData;
-
         private readonly IHeaderParser _headerParser;
-
         private readonly IFrameDescriptorBuilder _frameDescriptorBuilder;
+        private bool _disposed;
+        private byte[] _fileData;
+        private HeaderType _headerType;
+        private IList<MPEGVersionFrameDescriptor> _frameDescriptors;
 
         public Mp3DataAnalyzer(
-            string fileName, 
-            IHeaderParser headerParser,
-            IFrameDescriptorBuilder frameDescriptorBuilder)
-        {
-            this._fileData = File.ReadAllBytes(fileName);
-            this._headerParser = headerParser;
-            this._frameDescriptorBuilder = frameDescriptorBuilder;
-        }
-
-        public Mp3DataAnalyzer(
-            Stream stream, 
             IHeaderParser headerParser,
             IFrameDescriptorBuilder frameDescriptorBuilder)
         {
             this._headerParser = headerParser;
             this._frameDescriptorBuilder = frameDescriptorBuilder;
-            this.Init(stream);
         }
 
-        public Mp3DataAnalyzer(
-            byte[] fileData, 
-            IHeaderParser headerParser,
-            IFrameDescriptorBuilder frameDescriptorBuilder)
+        public void Init(byte[] fileData)
         {
             this._fileData = fileData.Clone() as byte[];
-            this._headerParser = headerParser;
-            this._frameDescriptorBuilder = frameDescriptorBuilder;
+            this._headerType = this.AnalyzeFileHeader();
+            this._frameDescriptors = new List<MPEGVersionFrameDescriptor>();
         }
 
-        private void Init(Stream stream)
+        public void Init(string fileName)
         {
-            this._fileData = new byte[stream.Length];
-            stream.Read(this._fileData, 0, this._fileData.Length);
+            this.Init(File.ReadAllBytes(fileName));
         }
 
         public AnalyzationInfo Analyze()
         {
-            HeaderType headerType = this.AnalyzeFileHeader();
-            MPEGVersionFrameDescriptor frameDescriptor;
+            IList<MPEGVersionFrameDescriptor> frameDescriptors = this.GetFrameDescriptors();
+            long availableBits = 0;
 
-            bool nextFrameExists = this.TryGetNextFrame(headerType.TagSize, out frameDescriptor);
-            int startIndex = -1;
-
-            if (nextFrameExists)
+            // the first frame is sued to keep file length
+            for (int i = 1; i < frameDescriptors.Count; ++i)
             {
-                startIndex = frameDescriptor.StartIndex;
+                availableBits += (frameDescriptors[i].FrameSize - FrameHeaderSize) * 2;
             }
 
-            IList<MPEGVersionFrameDescriptor> frameDescriptors = this.GetFrameDescriptors(headerType);
-
-            var result = new AnalyzationInfo(startIndex, 0, 0);
-
-            return result;
+            return new AnalyzationInfo(availableBits);
         }
 
-        private IList<MPEGVersionFrameDescriptor> GetFrameDescriptors(HeaderType headerType)
+        private IList<MPEGVersionFrameDescriptor> GetFrameDescriptors()
         {
-            bool nextFrameExists = true;
-            int startIndex = headerType.TagSize;
-            IList<MPEGVersionFrameDescriptor> result = new List<MPEGVersionFrameDescriptor>();
-            while (nextFrameExists)
+            if (this._frameDescriptors.Count == 0)
             {
-                MPEGVersionFrameDescriptor frame;
-                nextFrameExists = this.TryGetNextFrame(startIndex, out frame);
-                if (nextFrameExists)
+                bool nextFrameExists = true;
+                int startIndex = this._headerType.TagSize;
+                while (nextFrameExists)
                 {
-                    startIndex = frame.StartIndex + frame.FrameSize;
-                    result.Add(frame);
+                    MPEGVersionFrameDescriptor frame;
+                    nextFrameExists = this.TryGetNextFrame(startIndex, out frame);
+                    if (nextFrameExists)
+                    {
+                        startIndex = frame.StartIndex + frame.FrameSize;
+                        this._frameDescriptors.Add(frame);
+                    }
                 }
             }
 
-            return result;
+            return this._frameDescriptors;
         } 
 
         private HeaderType AnalyzeFileHeader()
@@ -171,6 +149,16 @@ namespace Stenography.Core.Sound
                     this._disposed = true;
                 }
             }
+        }
+
+        public IEnumerator<MPEGVersionFrameDescriptor> GetEnumerator()
+        {
+            return this.GetFrameDescriptors().GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
         }
     }
 }

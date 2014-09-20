@@ -1,6 +1,4 @@
-﻿using Stenography.Core.Contract;
-
-namespace Stenography.Core.Sound
+﻿namespace Stenography.Core.Contract
 {
     public abstract class MPEGVersionFrameDescriptor
     {
@@ -84,6 +82,14 @@ namespace Stenography.Core.Sound
             }
         }
 
+        public int HeaderSize
+        {
+            get
+            {
+                return this._frameHeaderBytes.Length;
+            }
+        }
+
         public byte SlotSize
         {
             get
@@ -114,12 +120,12 @@ namespace Stenography.Core.Sound
         {
             get
             {
-                return _startIndex;
+                return this._startIndex;
             }
 
             set
             {
-                _startIndex = value;
+                this._startIndex = value;
             }
         }
 

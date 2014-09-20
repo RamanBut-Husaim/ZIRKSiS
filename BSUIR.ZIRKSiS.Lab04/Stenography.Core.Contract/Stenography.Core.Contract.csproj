@@ -39,10 +39,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AnalyzationInfo.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="ILsbDataAnalyzer.cs" />
+    <Compile Include="ILsbDataReader.cs" />
     <Compile Include="ILsbDataWriter.cs" />
+    <Compile Include="IMp3DataReader.cs" />
+    <Compile Include="IMp3DataWriter.cs" />
     <Compile Include="IStenographyProvider.cs" />
+    <Compile Include="IMp3DataAnalyzer.cs" />
+    <Compile Include="MPEGVersionFrameDescriptor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
