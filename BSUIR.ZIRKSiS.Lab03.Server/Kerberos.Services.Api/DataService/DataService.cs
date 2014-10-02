@@ -68,7 +68,7 @@ namespace Kerberos.Services.Api.DataService
         {
             var dataServiceReply = new DataServiceReply();
             IServiceTicket serviceTicket = this.DecryptServiceTicket(dataServiceRequest.ServiceTicket);
-            this._traceManager.Trace("Service ticket decrypted", serviceTicket);
+            this._traceManager.Trace("DS: Service ticket decrypted", serviceTicket);
 
             IEnumerable<User> users =
               this.UnitOfWork.Repository<User, int>()
@@ -80,11 +80,11 @@ namespace Kerberos.Services.Api.DataService
             if (user != null)
             {
                 IAuthenticator authenticator = this.DecryptAuthenticator(user, serviceTicket.SessionKey, dataServiceRequest.Authenticator);
-                this._traceManager.Trace("Authenticator decrypted: ", authenticator);
+                this._traceManager.Trace("DS: Authenticator decrypted: ", authenticator);
                 ITimeStampContainer timeStampContainer = this.CreateTimeStampContainer(authenticator);
-                this._traceManager.Trace("Time stamp container created", timeStampContainer);
+                this._traceManager.Trace("DS: Time stamp container created", timeStampContainer);
                 dataServiceReply.TimeStamp = this.EncryptTimeStampContainer(timeStampContainer, serviceTicket.SessionKey, user);
-                this._traceManager.Trace("Time stamp container encrypted", Tuple.Create(dataServiceReply.TimeStamp));
+                this._traceManager.Trace("DS: Time stamp container encrypted", Tuple.Create(dataServiceReply.TimeStamp));
             }
 
             return dataServiceReply;

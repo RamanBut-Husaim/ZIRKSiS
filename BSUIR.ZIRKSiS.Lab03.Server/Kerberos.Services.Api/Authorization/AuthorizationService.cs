@@ -69,7 +69,7 @@ namespace Kerberos.Services.Api.Authorization
 
             ITgtToken tgtToken = this.DecryptTgt(authorizationRequest.TgtBytes);
 
-            this._traceManager.Trace("TGT Decrypted", tgtToken);
+            this._traceManager.Trace("TGS: TGT Decrypted", tgtToken);
 
             IEnumerable<User> users =
                this.UnitOfWork.Repository<User, int>()
@@ -82,17 +82,17 @@ namespace Kerberos.Services.Api.Authorization
             {
                 IAuthenticator authenticator = this.DecryptAuthenticator(user, authorizationRequest.AutheticatorBytes, tgtToken.SessionKey);
 
-                this._traceManager.Trace("Authenticator decrypted", authenticator);
+                this._traceManager.Trace("TGS: Authenticator decrypted", authenticator);
 
                 var sessionKey = new byte[SessionKeyLength];
                 this.GetRandomBytes(sessionKey);
                 IServiceTicket serviceTicket = this.CreateServiceTicket(tgtToken, sessionKey);
                 IServiceToken serviceToken = this.CreateServiceToken(sessionKey);
-                this._traceManager.Trace("Authorization reply created", serviceTicket, serviceToken);
+                this._traceManager.Trace("TGS: Authorization reply created", serviceTicket, serviceToken);
 
                 authorizationReply.ServiceTicket = this.EncryptServiceTicket(serviceTicket);
                 authorizationReply.ServiceToken = this.EncryptServiceToken(serviceToken, tgtToken.SessionKey, user);
-                this._traceManager.Trace("Authorization reply encrypted", Tuple.Create(authorizationReply.ServiceTicket, authorizationReply.ServiceToken));
+                this._traceManager.Trace("TGS: Authorization reply encrypted", Tuple.Create(authorizationReply.ServiceTicket, authorizationReply.ServiceToken));
             }
 
             return authorizationReply;

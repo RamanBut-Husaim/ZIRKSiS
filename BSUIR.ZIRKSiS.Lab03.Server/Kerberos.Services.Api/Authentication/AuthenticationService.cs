@@ -42,7 +42,7 @@ namespace Kerberos.Services.Api.Authentication
         {
             var authenticationReply = new AuthenticationReply();
 
-            this._traceManager.Trace("Authentication Request Received", authenticationRequest);
+            this._traceManager.Trace("CA: Authentication Request Received", authenticationRequest);
 
             IEnumerable<User> users =
                 this.UnitOfWork.Repository<User, int>()
@@ -58,10 +58,10 @@ namespace Kerberos.Services.Api.Authentication
 
                 ITgsToken tgsToken = this.CreateTgsToken(sessionKey);
                 ITgtToken tgtToken = this.CreateTgtToken(user, sessionKey);
-                this._traceManager.Trace("TGS Generate tokens", tgsToken, tgtToken);
+                this._traceManager.Trace("CA: TGS Generate tokens", tgsToken, tgtToken);
                 authenticationReply.TgsBytes = this.EncryptTgsToken(user, tgsToken);
                 authenticationReply.TgtBytes = this.EncryptTgtToken(tgtToken);
-                this._traceManager.Trace("TGS Encrypt tokens", Tuple.Create(authenticationReply.TgsBytes, authenticationReply.TgtBytes));
+                this._traceManager.Trace("CA: TGS Encrypt tokens", Tuple.Create(authenticationReply.TgsBytes, authenticationReply.TgtBytes));
             }
             else
             {
